@@ -1,0 +1,42 @@
+.with-remaining:hover{
+    background-color: rgba(0,0,0,.075)!important;
+}
+.content-wrapper{
+    font-size: 11pt!important;
+}
+.required{
+    color:red;
+}
+
+.dataTables_wrapper{
+    overflow-x:auto;
+}
+
+@media screen and (max-width: 880px) {
+    .small-box h3{
+        font-size: 1.2rem;
+    }
+
+    .small-box .icon>i.fa, .small-box .icon>i.fab, .small-box .icon>i.fad, .small-box .icon>i.fal, .small-box .icon>i.far, .small-box .icon>i.fas, .small-box .icon>i.ion{
+        font-size: 55px;
+    }
+}
+
+.with-remaining{
+    background-color: #e8fbe1!important;
+}
+
+.near-due-date{
+    background-color: #effdfb!important;
+}
+.tomorrow{
+    background-color: #fbf2cf;
+}
+.today,.past-due{
+    background-color: #fde5e1!important;
+}
+
+.dropdown-toggle::after {
+    display: none!important;
+}
+
