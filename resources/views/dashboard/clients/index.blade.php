@@ -17,15 +17,15 @@
 @stop
 
 @section('content')
-    <div class="card card-primary card-outline card-tabs">
+    <div class="card card-secondary card-outline card-tabs">
         <div class="card-header">
             @if(auth()->user()->can('add client'))
-                <button class="btn btn-sm btn-primary mb-4" id="add-client-btn">Add New</button>
+                <button class="btn btn-sm btn-secondary" id="add-client-btn">Add New</button>
             @endif
         </div>
         <div class="card-body">
             <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                <table id="client-list" class="table table-bordered table-hover" role="grid" style="width: 100%">
+                <table id="client-list" class="table table-striped table-hover border border-2" role="grid" style="width: 100%">
                     <thead>
                     <tr role="row">
                         <th>Date Added</th>

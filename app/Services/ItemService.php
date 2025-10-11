@@ -24,22 +24,28 @@ class ItemService
 
     public function all_items_in_table_lists($supplierId)
     {
-        $items = Item::where('supplier_id',$supplierId)->get();
+        if($supplierId != null)
+        {
+            $items = Item::where('supplier_id',$supplierId)->get();
+        }else{
+            $items = Item::all();
+        }
+
         return DataTables::of($items)
             ->editColumn('created_at', function ($item) {
-                return $item->created_at->format('M/d/Y');
+                return $item->created_at->format('M-d-Y h:i A');
             })
-            ->editColumn('company_name', function ($item) {
-                return '<a href="'.route('supplier.show',['supplier' => $item->id]).'">' . ucwords($item->company_name) . '</a>';
+            ->addColumn('company_name', function ($item) {
+                return '<a href="'.route('supplier.show',['supplier' => $item->supplier_id]).'">' . ucwords($item->supplier->company_name) . '</a>';
             })
-            ->editColumn('company_address', function ($item) {
-                return ucwords($item->company_address);
+            ->editColumn('unit_price', function ($item) {
+                return number_format($item->unit_price, 2);
             })
             ->addColumn('action', function ($item) {
                 $action = '<div class="btn-group" role="group">
                         <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                           </a>
                         <div class="dropdown-menu" role="menu">';
                 if(auth()->user()->can('view item'))

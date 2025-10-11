@@ -19,6 +19,7 @@ class PermissionRoleSeeder extends Seeder
 //        Role::create(['name' => 'finance administrator']);
 //        Role::create(['name' => 'procurement manager']);
 //        Role::create(['name' => 'panelist']);
+//        Role::create(['name' => 'project manager']);
 //
 //        //user
 //        Permission::create(['name' => 'view user']);
@@ -81,10 +82,24 @@ class PermissionRoleSeeder extends Seeder
 ////        //end criteria
 
         //kpi
-        Permission::create(['name' => 'view kpi']);
-        Permission::create(['name' => 'add kpi']);
-        Permission::create(['name' => 'edit kpi']);
-        Permission::create(['name' => 'delete kpi']);
+//        Permission::create(['name' => 'view kpi']);
+//        Permission::create(['name' => 'add kpi']);
+//        Permission::create(['name' => 'edit kpi']);
+//        Permission::create(['name' => 'delete kpi']);
 //        //end kpi
+
+//        //project
+//        Permission::create(['name' => 'view project']);
+//        Permission::create(['name' => 'add project']);
+//        Permission::create(['name' => 'edit project']);
+//        Permission::create(['name' => 'delete project']);
+///       //end project
+
+        //phase
+        Permission::create(['name' => 'view phase']);
+        Permission::create(['name' => 'add phase']);
+        Permission::create(['name' => 'edit phase']);
+        Permission::create(['name' => 'delete phase']);
+        //end phase
     }
 }

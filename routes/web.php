@@ -22,6 +22,8 @@ require __DIR__ . '/web/applicant.php';
 require __DIR__ . '/web/criteria.php';
 require __DIR__ . '/web/score.php';
 require __DIR__ . '/web/kpiForms.php';
+require __DIR__ . '/web/project.php';
+require __DIR__ . '/web/phase.php';
 
 Route::get('/', function () {
     return redirect(\route('home'));

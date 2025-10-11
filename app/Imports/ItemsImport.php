@@ -3,11 +3,15 @@
 namespace App\Imports;
 
 use App\Models\Item;
+use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
 class ItemsImport implements ToModel, WithHeadingRow
 {
+    use Importable;
     private string $supplierId;
     public function __construct(string $supplierId)
     {

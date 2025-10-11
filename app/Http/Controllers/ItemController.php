@@ -14,10 +14,11 @@ class ItemController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view item')->only(['index','allItems']);
+        $this->middleware('permission:view item')->only(['index','allItems','allSupplierItems']);
         $this->middleware('permission:add item')->only(['store']);
         $this->middleware('permission:edit item')->only(['edit','update']);
         $this->middleware('permission:delete item')->only(['destroy']);
+        $this->middleware('permission:upload item')->only(['import']);
     }
 
     /**
@@ -25,7 +26,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.item.index');
     }
 
     /**
@@ -81,6 +82,11 @@ class ItemController extends Controller
     public function allItems(ItemService $itemService, $supplierId): \Illuminate\Http\JsonResponse
     {
         return $itemService->all_items_in_table_lists($supplierId);
+    }
+
+    public function allSupplierItems(ItemService $itemService): \Illuminate\Http\JsonResponse
+    {
+        return $itemService->all_items_in_table_lists(null);
     }
 
     public function import(ImportItemRequest $request): \Illuminate\Http\JsonResponse

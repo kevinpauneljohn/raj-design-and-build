@@ -50,7 +50,7 @@ class KpiFormService
         $kpiForms = KpiForm::all();
         return DataTables::of($kpiForms)
             ->editColumn('created_at', function ($kpiForm) {
-                return $kpiForm->created_at->format('M/d/Y');
+                return $kpiForm->created_at->format('M-d-Y h:i A');
             })
             ->editColumn('description', function ($kpiForm) {
                 return nl2br($kpiForm->description);

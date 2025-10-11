@@ -12,6 +12,11 @@
     overflow-x:auto;
 }
 
+.table td, .table th {
+    /*padding: .45rem !important;*/
+    /*vertical-align: top;*/
+    /*border-top: 1px solid #dee2e6;*/
+}
 @media screen and (max-width: 880px) {
     .small-box h3{
         font-size: 1.2rem;

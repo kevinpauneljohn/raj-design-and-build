@@ -23,7 +23,7 @@
             <div class="col-md-3">
 
                 <!-- Profile Image -->
-                <div class="card card-primary card-outline">
+                <div class="card card-secondary card-outline">
                     <div class="card-body box-profile">
                         <h3 class="profile-username text-center">{{ucwords($supplier->company_name)}}</h3>
                         <ul class="list-group list-group-unbordered mb-3">
@@ -49,106 +49,47 @@
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header p-2">
-                        <ul class="nav nav-pills">
-                            <li class="nav-item"><a class="nav-link active" href="#items" data-toggle="tab">Items</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
-                        </ul>
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+
+                            @can('add item')
+                                <button type="button" class="btn btn-secondary btn-sm" id="add-item-btn">Add</button>
+                            @endcan
+
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    @can('upload item')
+                                        <a class="dropdown-item" href="#" id="upload-item-btn" title="Upload">Import Items</a>
+                                    @endcan
+                                    @can('download item template')
+                                        <a class="dropdown-item" href="{{asset('import-template/supply-item-import-template.xlsx')}}" id="download-item-btn" title="Download" download>Download template</a>
+                                    @endcan
+                                </div>
+                            </div>
+                        </div>
                     </div><!-- /.card-header -->
                     <div class="card-body">
-                        <div class="tab-content">
-                            <div class="active tab-pane" id="items">
 
-                                <div class="btn-group mb-4" role="group" aria-label="Button group with nested dropdown">
 
-                                    @can('add item')
-                                        <button type="button" class="btn btn-primary" id="add-item-btn">Add</button>
-                                    @endcan
+                        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <table id="item-list" class="table table-striped table-hover border border-2" role="grid" style="width: 100%">
+                                <thead>
+                                <tr role="row">
+                                    <th style="width: 15%;">Date Added</th>
+                                    <th style="width: 30%;">Item</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Unit Cost</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
 
-                                    <div class="btn-group" role="group">
-                                        <button id="btnGroupDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-caret-down" aria-hidden="true"></i>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                            @can('upload item')
-                                                <a class="dropdown-item" href="#" id="upload-item-btn" title="Upload">Import Items</a>
-                                            @endcan
-                                            @can('upload item')
-                                                <a class="dropdown-item" href="#" id="download-item-btn" title="Download">Download template</a>
-                                            @endcan
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                    <table id="item-list" class="table table-bordered table-hover" role="grid" style="width: 100%">
-                                        <thead>
-                                            <tr role="row">
-                                                <th style="width: 15%;">Date Added</th>
-                                                <th style="width: 30%;">Item</th>
-                                                <th>Quantity</th>
-                                                <th>Unit</th>
-                                                <th>Unit Cost</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane" id="settings">
-                                <form class="form-horizontal">
-                                    <div class="form-group row">
-                                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="inputName" placeholder="Name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="offset-sm-2 col-sm-10">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="offset-sm-2 col-sm-10">
-                                            <button type="submit" class="btn btn-danger">Submit</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- /.tab-pane -->
+                                </tbody>
+                            </table>
                         </div>
-                        <!-- /.tab-content -->
                     </div><!-- /.card-body -->
                 </div>
                 <!-- /.card -->
@@ -197,8 +138,8 @@
                     </div>
                     <input type="hidden" name="supplier_id" value="{{$supplier->id}}">
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-secondary">Save</button>
                     </div>
                 </div>
             </form>
@@ -207,7 +148,6 @@
 
     <div class="modal fade upload-item-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-md" role="document">
-{{--            <form id="upload-items-form" action="{{route('item.import')}}" method="post" enctype="multipart/form-data">--}}
             <form id="upload-items-form" enctype="multipart/form-data">
 
                 @csrf
@@ -225,8 +165,8 @@
                     </div>
                     <input type="hidden" name="supplier_id" value="{{$supplier->id}}">
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary import-btn">Import</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-secondary import-btn">Import</button>
                     </div>
                 </div>
             </form>

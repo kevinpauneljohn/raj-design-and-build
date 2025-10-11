@@ -50,7 +50,7 @@ class ClientService
         $clients = Client::all();
         return DataTables::of($clients)
             ->editColumn('created_at', function ($client) {
-                return $client->created_at->format('M/d/Y');
+                return $client->created_at->format('M-d-Y h:i A');
             })
             ->editColumn('address', function ($client) {
                 return ucwords($client->address);

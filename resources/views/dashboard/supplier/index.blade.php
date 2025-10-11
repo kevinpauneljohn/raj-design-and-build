@@ -17,15 +17,15 @@
 @stop
 
 @section('content')
-    <div class="card card-primary card-outline card-tabs">
+    <div class="card card-secondary card-outline card-tabs">
         <div class="card-header">
             @can('add supplier')
-                <button class="btn btn-sm btn-primary mb-4" id="add-supplier-btn">Add</button>
+                <button class="btn btn-sm btn-secondary" id="add-supplier-btn">Add</button>
             @endcan
         </div>
         <div class="card-body">
             <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                <table id="supplier-list" class="table table-bordered table-hover" role="grid" style="width: 100%">
+                <table id="supplier-list" class="table table-striped table-hover border border-2" role="grid" style="width: 100%">
                     <thead>
                     <tr role="row">
                         <th>Date Added</th>
@@ -90,8 +90,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-secondary">Save</button>
                     </div>
                 </div>
             </form>
@@ -118,7 +118,13 @@
             }
         });
 
+        $('.dropdown-toggle').dropdown({
+            'flip' : false
+        });
+
         $(function(){
+
+
             $('#supplier-list').DataTable({
                 processing: true,
                 serverSide: true,

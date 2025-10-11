@@ -50,7 +50,7 @@ class CriteriaService
         $criterion = Criteria::all();
         return DataTables::of($criterion)
             ->editColumn('created_at', function ($criteria) {
-                return $criteria->created_at->format('M/d/Y');
+                return $criteria->created_at->format('M-d-Y h:i A');
             })
             ->addColumn('action', function ($criteria) {
                 $action = '';

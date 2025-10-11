@@ -51,7 +51,7 @@ class SupplierService
         $suppliers = Supplier::all();
         return DataTables::of($suppliers)
             ->editColumn('created_at', function ($supplier) {
-                return $supplier->created_at->format('M/d/Y');
+                return $supplier->created_at->format('M-d-Y h:i A');
             })
             ->editColumn('company_name', function ($supplier) {
                 return '<a href="'.route('supplier.show',['supplier' => $supplier->id]).'">' . ucwords($supplier->company_name) . '</a>';
@@ -63,7 +63,7 @@ class SupplierService
                 $action = '<div class="btn-group" role="group">
                         <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                           </a>
                         <div class="dropdown-menu" role="menu">';
                 if(auth()->user()->can('manage supplier'))

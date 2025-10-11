@@ -10,4 +10,10 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = ['supplier_id', 'item_name', 'quantity','unit','unit_price'];
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
 }
