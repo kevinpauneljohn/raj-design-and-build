@@ -8,6 +8,10 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PhaseService
 {
+    private function project($project_id)
+    {
+        return Phase::where('project_id',$project_id);
+    }
     public function savePhase(array $data): \Illuminate\Http\JsonResponse
     {
         if(Phase::create($data))
@@ -21,6 +25,26 @@ class PhaseService
             'success' => false,
             'message' => 'Phase not added'
         ]);
+    }
+
+    public function check_phase_remaining_percentage($project_id)
+    {
+        //check if project_id already exists
+        if($this->project_exists($project_id))
+        {
+            return 100 - $this->get_total_percentage($project_id);
+        }
+        return 100;
+    }
+
+    public function get_total_percentage($project_id)
+    {
+        return $this->project($project_id)->sum('percentage');
+    }
+
+    public function project_exists($project_id): bool
+    {
+        return $this->project($project_id)->count() > 0;
     }
 
     public function updatePhase(array $data, string $id): \Illuminate\Http\JsonResponse

@@ -139,12 +139,12 @@
                         <div class="row">
                             <div class="form-group col-lg-12 percentage">
                                 <label for="percentage">Percentage</label><span class="required">*</span>
-                                <input type="number" class="form-control" name="percentage" id="percentage" step="any" max="100" min="0"/>
+                                <input type="number" class="form-control" name="percentage" id="percentage" step="any" placeholder="{{$remaining_percentage}}" min="0"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-lg-12">
-                                <label for="sales-dates">Set Start and End Date</label>
+                                <label for="sales-dates">Set Timeline</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                   <span class="input-group-text">
@@ -300,7 +300,7 @@
                     remove_required_field_errors();
                 }
             }).done(function(response){
-                console.log();
+                console.log(response);
                 $('#timeline').daterangepicker({
                     startDate: moment(response.start_date).format('MM-DD-Y'),
                     endDate: moment(response.end_date).format('MM-DD-Y'),
@@ -332,6 +332,7 @@
                     phaseModal.find('button[type="submit"]').text('Saving...');
                 }
             }).done(function(response){
+                console.log(response)
                 if(response.success === true)
                 {
                     Toast.fire({

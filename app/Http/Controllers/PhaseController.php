@@ -43,8 +43,8 @@ class PhaseController extends Controller
         $date = explode(" - ",$request->timeline);
 
         $data = collect($request->all())->merge([
-            'start_date' => Carbon::parse($date[0]),
-            'end_date' => Carbon::parse($date[1]),
+            'start_date' => Carbon::parse($date[0])->format('Y-m-d'),
+            'end_date' => Carbon::parse($date[1])->format('Y-m-d'),
         ])->toArray();
         return $phaseService->savePhase($data);
     }
@@ -70,7 +70,14 @@ class PhaseController extends Controller
      */
     public function update(UpdatePhaseRequest $request, int $phase, PhaseService $phaseService)
     {
-        return $phaseService->updatePhase($request->all(), $phase);
+        $date = explode(" - ",$request->timeline);
+
+        $data = collect($request->all())->merge([
+            'start_date' => Carbon::parse($date[0])->format('Y-m-d'),
+            'end_date' => Carbon::parse($date[1])->format('Y-m-d'),
+        ])->toArray();
+
+        return $phaseService->updatePhase($data, $phase);
     }
 
     /**

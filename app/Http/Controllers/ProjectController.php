@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Services\PhaseService;
 use App\Services\ProjectService;
 use App\Services\SupplierService;
 
@@ -48,10 +49,11 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function show(Project $project, PhaseService $phaseService)
     {
         return view('dashboard.projects.profile')->with([
             'project' => $project,
+            'remaining_percentage' => $phaseService->check_phase_remaining_percentage($project->id)
         ]);
     }
 
