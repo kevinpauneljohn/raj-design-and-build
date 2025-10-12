@@ -43,8 +43,8 @@ class PhaseController extends Controller
         $date = explode(" - ",$request->timeline);
 
         $data = collect($request->all())->merge([
-            'start_date' => Carbon::parse($date[0])->format('Y-m-d'),
-            'end_date' => Carbon::parse($date[1])->format('Y-m-d'),
+            'start_date' => !is_null($request->timeline) ? Carbon::parse($date[0])->format('Y-m-d') : null,
+            'end_date' => !is_null($request->timeline) ? Carbon::parse($date[1])->format('Y-m-d') : null,
         ])->toArray();
         return $phaseService->savePhase($data);
     }
@@ -73,8 +73,8 @@ class PhaseController extends Controller
         $date = explode(" - ",$request->timeline);
 
         $data = collect($request->all())->merge([
-            'start_date' => Carbon::parse($date[0])->format('Y-m-d'),
-            'end_date' => Carbon::parse($date[1])->format('Y-m-d'),
+            'start_date' => !is_null($request->timeline) ? Carbon::parse($date[0])->format('Y-m-d') : null,
+            'end_date' => !is_null($request->timeline) ? Carbon::parse($date[1])->format('Y-m-d') : null,
         ])->toArray();
 
         return $phaseService->updatePhase($data, $phase);
@@ -90,8 +90,8 @@ class PhaseController extends Controller
             response()->json(['success' => false, 'message' => 'Phase not found'], 404);
     }
 
-    public function allPhases(PhaseService $phaseService): \Illuminate\Http\JsonResponse
+    public function allPhases($project, PhaseService $phaseService): \Illuminate\Http\JsonResponse
     {
-        return $phaseService->all_phases_in_table_lists();
+        return $phaseService->all_phases_in_table_lists($project);
     }
 }

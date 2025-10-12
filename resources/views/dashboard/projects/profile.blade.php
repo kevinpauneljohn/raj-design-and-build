@@ -3,7 +3,7 @@
 @section('title', 'Projects')
 
 @section('content_header')
-    <div class="row mb-2">
+    <div class="row">
         <div class="col-sm-6">
             <h3>Project Details</h3>
         </div>
@@ -96,6 +96,7 @@
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Percentage</th>
+                                <th>Timeline</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -139,7 +140,7 @@
                         <div class="row">
                             <div class="form-group col-lg-12 percentage">
                                 <label for="percentage">Percentage</label><span class="required">*</span>
-                                <input type="number" class="form-control" name="percentage" id="percentage" step="any" placeholder="{{$remaining_percentage}}" min="0"/>
+                                <input type="number" class="form-control" name="percentage" id="percentage" step="any" placeholder="{{$remaining_percentage}}%" min="0"/>
                             </div>
                         </div>
                         <div class="row">
@@ -151,7 +152,7 @@
                                     <i class="far fa-calendar-alt"></i>
                                   </span>
                                     </div>
-                                    <input type="text" name="timeline" class="form-control float-right" id="timeline">
+                                    <input type="text" name="timeline" class="form-control float-right" id="timeline" autocomplete="off">
                                 </div>
                                 <!-- /.input group -->
                             </div>
@@ -159,8 +160,8 @@
                         <input type="hidden" name="project_id" value="{{$project->id}}">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-secondary">Save</button>
                     </div>
                 </div>
             </form>
@@ -195,17 +196,24 @@
             $('#phase-list').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{!! route('all-phases') !!}',
+                ajax: '{!! route('all-phases',['project' => $project->id]) !!}',
                 columns: [
                     { data: 'created_at', name: 'created_at'},
                     { data: 'name', name: 'name'},
                     { data: 'description', name: 'description'},
                     { data: 'percentage', name: 'percentage'},
+                    { data: 'timeline', name: 'timeline'},
                     { data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 responsive:true,
                 order:[0,'desc'],
                 pageLength: 10,
+                drawCallback: function(row){
+                    let request = row.json;
+
+                    $('#phase-list').find('tbody')
+                        .append('<tr><td colspan="3"><span class="text-bold"></td><td colspan="3">Total: <span class="text-bold text-danger">'+request.total_percentage+'%</span></td></tr>')
+                }
             });
         });
 
@@ -255,11 +263,17 @@
                     action_before_form_submission();
                 }
             }).done(function(response){
+                console.log(response);
                 if(response.success === true)
                 {
                     Toast.fire({
                         icon: "success",
                         title: response.message
+                    });
+
+                    phaseModal.find('#percentage').attr({
+                        'placeholder':response.remaining_percentage+'%',
+                        'max' : response.maremaining_percentage
                     });
                     phaseTable.DataTable().ajax.reload(null, false);
                     phaseModal.find('form').trigger('reset');
@@ -301,10 +315,16 @@
                 }
             }).done(function(response){
                 console.log(response);
-                $('#timeline').daterangepicker({
-                    startDate: moment(response.start_date).format('MM-DD-Y'),
-                    endDate: moment(response.end_date).format('MM-DD-Y'),
-                });
+                if(response.start_date === null || response.end_date === null)
+                {
+                    $('#timeline').val('').change();
+                }else{
+                    $('#timeline').daterangepicker({
+                        startDate: moment(response.start_date).format('MM-DD-Y'),
+                        endDate: moment(response.end_date).format('MM-DD-Y'),
+                    });
+                }
+
                 $.each(response, function(key, value){
                     phaseModal.find('input[name='+key+'], textarea[name='+key+'], select[name='+key+']').val(value).change();
                 });
@@ -319,7 +339,6 @@
         $(document).on('submit','#edit-phase-form', function(form){
             form.preventDefault();
             let data = $(this).serializeArray();
-            console.log(phaseId);
             $.ajax({
                 url: '/phase/'+phaseId,
                 type: 'put',
@@ -335,6 +354,10 @@
                 console.log(response)
                 if(response.success === true)
                 {
+                    phaseModal.find('#percentage').attr({
+                        'placeholder':response.remaining_percentage+'%',
+                        'max' : response.maremaining_percentage
+                    });
                     Toast.fire({
                         icon: "success",
                         title: response.message

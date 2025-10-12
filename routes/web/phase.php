@@ -5,5 +5,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('phase', PhaseController::class);
-    Route::get('/all-phases',[PhaseController::class,'allPhases'])->name('all-phases');
+    Route::get('/all-phases/{project}',[PhaseController::class,'allPhases'])->name('all-phases');
 });

@@ -19,6 +19,7 @@ class PhaseService
             return response()->json([
                 'success' => true,
                 'message' => 'Phase added successfully',
+                'remaining_percentage' => $this->check_phase_remaining_percentage($data['project_id'])
             ]);
         }
         return response()->json([
@@ -49,14 +50,15 @@ class PhaseService
 
     public function updatePhase(array $data, string $id): \Illuminate\Http\JsonResponse
     {
-        $client = Phase::findOrFail($id)->fill($data);
-        if($client->isDirty())
+        $phase = Phase::findOrFail($id)->fill($data);
+        if($phase->isDirty())
         {
-            if($client->save())
+            if($phase->save())
             {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Phase updated successfully!'
+                    'message' => 'Phase updated successfully!',
+                    'remaining_percentage' => $this->check_phase_remaining_percentage($phase->project_id)
                 ]);
             }
             return response()->json([
@@ -70,12 +72,23 @@ class PhaseService
         ]);
     }
 
-    public function all_phases_in_table_lists()
+    public function all_phases_in_table_lists($project_id)
     {
         $phases = Phase::all();
         return DataTables::of($phases)
             ->editColumn('created_at', function ($phase) {
                 return $phase->created_at->format('M-d-Y h:i A');
+            })
+            ->editColumn('name', function ($phase) {
+                return '<span class="text-primary text-bold">'.ucwords($phase->name).'</span>';
+            })
+            ->editColumn('percentage', function ($phase) {
+                return '<span class="text-success text-bold">'.$phase->percentage.'%</span>';
+            })
+            ->addColumn('timeline', function ($phase) {
+
+                return is_null($phase->start_date) || is_null($phase->end_date) ? ''
+                    : '<span class="text-purple text-bold">'.Carbon::parse($phase->start_date)->format('M-d-Y').'</span> to <span class="text-purple text-bold">'.Carbon::parse($phase->end_date)->format('M-d-Y').'</span>';
             })
             ->addColumn('action', function ($phase) {
                 $action = '<div class="btn-group" role="group">
@@ -95,7 +108,10 @@ class PhaseService
                 $action .= '</div>';
                 return $action;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','name', 'percentage','timeline'])
+            ->with([
+                'total_percentage' => $this->get_total_percentage($project_id)
+            ])
             ->make(true);
     }
 }
