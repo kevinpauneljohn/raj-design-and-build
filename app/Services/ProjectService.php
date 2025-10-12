@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Project;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class ProjectService
@@ -75,6 +76,10 @@ class ProjectService
                 {
                     $action .= '<a href="'.route('project.show',['project' => $project->id]).'" class="dropdown-item view-project-btn text-success" id="'.$project->id.'"><i class="fa fa-folder" aria-hidden="true"></i> Manage</a>';
                 }
+                if(auth()->user()->can('assign project to user'))
+                {
+                    $action .= '<a href="#" class="dropdown-item assign-user-btn" id="'.$project->id.'"><i class="fa fa-users" aria-hidden="true"></i> Assign Users</a>';
+                }
                 if(auth()->user()->can('edit project'))
                 {
                     $action .= '<a href="#" class="dropdown-item edit-project-btn text-primary" id="'.$project->id.'"><i class="fa fa-pencil-alt" aria-hidden="true"></i> Edit</a>';
@@ -89,4 +94,10 @@ class ProjectService
             ->rawColumns(['action','client','name'])
             ->make(true);
     }
+
+    public function getAssignedUsers($project_id)
+    {
+        return collect(Project::findOrfail($project_id)->users)->pluck(['id']);
+    }
+
 }

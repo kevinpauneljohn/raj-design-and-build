@@ -6,9 +6,12 @@ use App\Models\Client;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\User;
 use App\Services\PhaseService;
 use App\Services\ProjectService;
 use App\Services\SupplierService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -26,7 +29,8 @@ class ProjectController extends Controller
     public function index()
     {
         return view('dashboard.projects.index')->with([
-            'clients' => Client::all()
+            'clients' => Client::all(),
+            'users' => User::all()
         ]);
     }
 
@@ -43,7 +47,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request, ProjectService $projectService): \Illuminate\Http\JsonResponse
     {
-        return $projectService->saveProject($request->all());
+        return $projectService->saveProject(collect($request->all())->merge(['user_id' => auth()->id()])->all());
     }
 
     /**
@@ -53,7 +57,7 @@ class ProjectController extends Controller
     {
         return view('dashboard.projects.profile')->with([
             'project' => $project,
-            'remaining_percentage' => $phaseService->check_phase_remaining_percentage($project->id)
+            'remaining_percentage' => $phaseService->check_phase_remaining_percentage($project->id),
         ]);
     }
 
@@ -86,5 +90,26 @@ class ProjectController extends Controller
     public function allProjects(ProjectService $projectService): \Illuminate\Http\JsonResponse
     {
         return $projectService->all_project_in_table_lists();
+    }
+
+    public function assignedUsers($project, ProjectService $projectService)
+    {
+        return $projectService->getAssignedUsers($project);
+    }
+
+    public function assignUser(Request $request, $project)
+    {
+        DB::table('project_user')->where('project_id',$project)->delete();
+        if(!is_null($request->users))
+        {
+            foreach ($request->users as $user) {
+                DB::table('project_user')->updateOrInsert([
+                    'project_id' => $project,
+                    'user_id' => $user,
+                ]);
+            }
+            return response()->json(['success' => true, 'message' => 'Users assigned']);
+        }
+        return response()->json(['success' => false, 'message' => 'No assigned users']);
     }
 }

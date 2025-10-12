@@ -101,6 +101,40 @@
             </form>
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade assign-user-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-md" role="document">
+            <form class="assign-users-form">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header bg-gray-light">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-lg-12 users">
+                                <label for="users">Assign Users</label>
+                                <select class="form-control select2" name="users[]" id="users" multiple="multiple" style="width: 100%">
+                                    @foreach($users as $user)
+                                        <option value="{{$user->id}}">{{$user->full_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-secondary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 @stop
 @section('plugins.Sweetalert2',true)
 @section('css')
@@ -127,7 +161,7 @@
             allowClear: true,
             dropdownParent: $(".project-modal"),
         });
-
+        $('#users').select2()
         $(function(){
 
             $('#project-list').DataTable({
@@ -344,6 +378,69 @@
             });
         });
 
+        @endcan
+
+        @can('assign project to user')
+            let assignUserModal = $('.assign-user-modal');
+            $(document).on('click','.assign-user-btn', function(){
+                projectId = this.id;
+                let tr = $(this).closest('tr');
+
+                let data = tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+
+                assignUserModal.modal('toggle');
+                assignUserModal.find('.modal-title').text(data[1]);
+
+
+                $.ajax({
+                    url: '/project/'+projectId+'/assigned-users',
+                    type: 'get',
+                    beforeSend: function(){
+                        assignUserModal.find('.modal-header').prepend(overlay);
+                    }
+                }).done(function(response){
+                    assignUserModal.find('#users').val(response).change();
+                }).fail(function(xhr, status, error){
+                    console.log(xhr);
+                }).always(function(){
+                    assignUserModal.find('.overlay').remove();
+                });
+            })
+
+            $(document).on('submit','.assign-users-form', function(form){
+                form.preventDefault();
+                let data = $(this).serializeArray();
+
+                $.ajax({
+                    url: '/project/'+projectId+'/assign-user',
+                    type: 'post',
+                    data: data,
+                    beforeSend: function(){
+                        assignUserModal.find('.modal-header').prepend(overlay);
+                    }
+                }).done(function(response){
+                    if(response.success === true)
+                    {
+                        Toast.fire({
+                            icon: "success",
+                            title: response.message
+                        });
+                        projectTable.DataTable().ajax.reload(null, false);
+                    }
+                    else{
+                        Toast.fire({
+                            icon: "warning",
+                            title: response.message
+                        });
+                    }
+                }).fail(function(xhr, status, error){
+                    console.log(xhr);
+                }).always(function(){
+                    assignUserModal.find('.overlay').remove();
+                });
+            });
         @endcan
     </script>
 @endpush

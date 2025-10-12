@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('referral')->nullable();
             $table->enum('status', ['pending', 'on-going','delivered','completed','declined'])->default('pending');
+            $table->foreignUuid('user_id')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });

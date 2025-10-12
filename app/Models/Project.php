@@ -13,7 +13,7 @@ class Project extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     protected $fillable = [
-        'name','address','client_id','price','description','referral','status'
+        'name','address','client_id','price','description','referral','status','user_id'
     ];
 
     public function newUniqueId(): string
@@ -29,5 +29,10 @@ class Project extends Model
     public function client()
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
     }
 }

@@ -93,13 +93,14 @@ class PermissionRoleSeeder extends Seeder
 //        Permission::create(['name' => 'add project']);
 //        Permission::create(['name' => 'edit project']);
 //        Permission::create(['name' => 'delete project']);
+        Permission::create(['name' => 'assign project to user']);
 ///       //end project
 
         //phase
-        Permission::create(['name' => 'view phase']);
-        Permission::create(['name' => 'add phase']);
-        Permission::create(['name' => 'edit phase']);
-        Permission::create(['name' => 'delete phase']);
+//        Permission::create(['name' => 'view phase']);
+//        Permission::create(['name' => 'add phase']);
+//        Permission::create(['name' => 'edit phase']);
+//        Permission::create(['name' => 'delete phase']);
         //end phase
     }
 }

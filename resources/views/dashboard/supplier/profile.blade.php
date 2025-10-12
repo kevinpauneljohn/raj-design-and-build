@@ -52,7 +52,7 @@
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
 
                             @can('add item')
-                                <button type="button" class="btn btn-secondary btn-sm" id="add-item-btn">Add</button>
+                                <button type="button" class="btn btn-secondary btn-sm" id="add-item-btn">Add Item</button>
                             @endcan
 
                             <div class="btn-group" role="group">
