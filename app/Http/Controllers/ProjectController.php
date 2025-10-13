@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\CheckIfUserWasAllowedToAccessProject;
 use App\Models\Client;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
@@ -9,7 +10,6 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Models\User;
 use App\Services\PhaseService;
 use App\Services\ProjectService;
-use App\Services\SupplierService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,6 +21,7 @@ class ProjectController extends Controller
         $this->middleware('permission:add project')->only(['store']);
         $this->middleware('permission:edit project')->only(['edit','update']);
         $this->middleware('permission:delete project')->only(['destroy']);
+        $this->middleware(CheckIfUserWasAllowedToAccessProject::class)->only(['show']);
     }
 
     /**

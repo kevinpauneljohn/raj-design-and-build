@@ -325,7 +325,6 @@ return [
             'route'  => 'home',
             'icon' => 'fa fa-home',
         ],
-        ['header' => 'Back End'],
         [
             'text' => 'User Management',
             'route'  => 'user.index',
@@ -333,7 +332,6 @@ return [
             'icon' => 'fas fa-fw fa-users',
             'can' => 'view user'
         ],
-        ['header' => 'Procurement'],
         [
             'text' => 'Clients',
             'route'  => 'client.index',
@@ -362,7 +360,6 @@ return [
             'icon' => 'fas fa-fw fa-trophy',
             'can' => 'view project'
         ],
-        ['header' => 'Others'],
         [
             'text' => 'KPI Forms',
             'route'  => 'kpi-forms.index',
