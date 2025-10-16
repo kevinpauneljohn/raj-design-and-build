@@ -243,7 +243,7 @@
         function action_before_form_submission()
         {
             remove_required_field_errors();
-            phaseModal.find('input, textarea, button[type="submit"]').attr('disabled',true);
+            phaseModal.find('input, textarea, button[type="submit"], select').attr('disabled',true);
             phaseModal.find('button[type="submit"]').text('Saving...');
         }
 
