@@ -40,7 +40,7 @@ class PhaseService
 
     public function get_total_percentage($project_id)
     {
-        return $this->project($project_id)->sum('percentage');
+        return $this->project($project_id)->where('category','construction')->sum('percentage');
     }
 
     public function project_exists($project_id): bool
@@ -97,11 +97,15 @@ class PhaseService
                             <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                           </a>
                         <div class="dropdown-menu" role="menu">';
-                if(auth()->user()->can('edit client'))
+                if(auth()->user()->can('view phase'))
+                {
+                    $action .= '<a href="'.route('phase.show',['phase' => $phase->id]).'" class="view-phase-btn dropdown-item text-primary" id="'.$phase->id.'"><i class="fa fa-eye" aria-hidden="true"></i> View</a>';
+                }
+                if(auth()->user()->can('edit phase'))
                 {
                     $action .= '<a href="#" class="edit-phase-btn dropdown-item text-primary" id="'.$phase->id.'"><i class="fa fa-pencil-alt" aria-hidden="true"></i> Edit</a>';
                 }
-                if(auth()->user()->can('delete client'))
+                if(auth()->user()->can('delete phase'))
                 {
                     $action .= '<a href="#" class="delete-phase-btn dropdown-item text-danger" id="'.$phase->id.'"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>';
                 }

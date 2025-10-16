@@ -100,4 +100,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Project::class);
     }
+
+    public function createdProjects()
+    {
+        return $this->hasMany(Project::class);
+    }
 }

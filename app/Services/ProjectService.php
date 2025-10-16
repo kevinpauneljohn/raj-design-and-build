@@ -65,6 +65,16 @@ class ProjectService
             ->addColumn('client', function ($project) {
                 return '<a href="'.route('client.show',['client' => $project->client_id]).'">'.ucwords($project->client->full_name).'</a>';
             })
+            ->addColumn('assigned_users', function ($project) {
+                $data = '';
+                foreach ($project->users as $user) {
+                    $data .= '<span class="badge bg-purple mr-1">'.$user->full_name.'</span>';
+                }
+                return $data;
+            })
+            ->editColumn('user_id', function ($project) {
+                return ucwords($project->user->full_name);
+            })
             ->addColumn('action', function ($project) {
                 $action = '<div class="btn-group" role="group">
                         <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,7 +101,7 @@ class ProjectService
                 $action .= '</div>';
                 return $action;
             })
-            ->rawColumns(['action','client','name'])
+            ->rawColumns(['action','client','name','assigned_users'])
             ->make(true);
     }
 

@@ -33,6 +33,8 @@
                         <th>Address</th>
                         <th>Client</th>
                         <th>Price</th>
+                        @if(auth()->user()->hasRole('super admin')) <th>Assigned Users</th> @endif
+                        <th>Creator</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -174,6 +176,10 @@
                     { data: 'address', name: 'address'},
                     { data: 'client', name: 'client'},
                     { data: 'price', name: 'price'},
+                    @if(auth()->user()->hasRole('super admin'))
+                    { data: 'assigned_users', name: 'assigned_users'},
+                    @endif
+                    { data: 'user_id', name: 'user_id'},
                     { data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 responsive:true,
@@ -401,6 +407,7 @@
                         assignUserModal.find('.modal-header').prepend(overlay);
                     }
                 }).done(function(response){
+                    console.log(response);
                     assignUserModal.find('#users').val(response).change();
                 }).fail(function(xhr, status, error){
                     console.log(xhr);

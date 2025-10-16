@@ -1,17 +1,18 @@
 @extends('adminlte::page')
 
-@section('title', 'Projects')
+@section('title', 'Projects Phases')
 
 @section('content_header')
     <div class="row">
         <div class="col-sm-6">
-            <h3>Project Details</h3>
+            <h3>Project Phases</h3>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{route('home')}}">Dashboard</a> </li>
                 <li class="breadcrumb-item"><a href="{{route('project.index')}}">Projects</a> </li>
-                <li class="breadcrumb-item active">Project Details</li>
+                <li class="breadcrumb-item"><a href="{{route('project.show',['project' => $project->id])}}">Project Details</a> </li>
+                <li class="breadcrumb-item active">Project Phase</li>
             </ol>
         </div>
     </div>

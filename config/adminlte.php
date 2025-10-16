@@ -333,13 +333,6 @@ return [
             'can' => 'view user'
         ],
         [
-            'text' => 'Clients',
-            'route'  => 'client.index',
-            'key' => 'clients',
-            'icon' => 'fas fa-fw fa-user-plus',
-            'can' => 'view client'
-        ],
-        [
             'text' => 'Suppliers',
             'route'  => 'supplier.index',
             'key' => 'suppliers',
@@ -352,6 +345,20 @@ return [
             'key' => 'items',
             'icon' => 'fas fa-fw fa-shopping-basket',
             'can' => 'view item'
+        ],
+        [
+            'text' => 'Clients',
+            'route'  => 'client.index',
+            'key' => 'clients',
+            'icon' => 'fas fa-fw fa-user-plus',
+            'can' => 'view client'
+        ],
+        [
+            'text' => 'Quotations',
+            'route'  => 'quotation.index',
+            'key' => 'quotations',
+            'icon' => 'fas fa-fw fa-star',
+            'can' => 'view quotation'
         ],
         [
             'text' => 'Projects',

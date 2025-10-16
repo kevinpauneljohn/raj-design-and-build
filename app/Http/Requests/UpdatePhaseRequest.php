@@ -31,6 +31,7 @@ class UpdatePhaseRequest extends FormRequest
                 Rule::prohibitedIf($this->percentage > $this->remaining_percentage,
             )],
             'project_id' => ['required'],
+            'category' => ['required'],
         ];
     }
 

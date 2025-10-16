@@ -89,18 +89,25 @@ class PermissionRoleSeeder extends Seeder
 //        //end kpi
 
 //        //project
-//        Permission::create(['name' => 'view project']);
-//        Permission::create(['name' => 'add project']);
-//        Permission::create(['name' => 'edit project']);
-//        Permission::create(['name' => 'delete project']);
-        Permission::create(['name' => 'assign project to user']);
+//        Permission::create(['name' => 'view project'])->assignRole(['project manager']);
+//        Permission::create(['name' => 'add project'])->assignRole(['project manager']);
+//        Permission::create(['name' => 'edit project'])->assignRole(['project manager']);
+//        Permission::create(['name' => 'delete project'])->assignRole(['project manager']);
+//        Permission::create(['name' => 'assign project to user']);
 ///       //end project
 
         //phase
-//        Permission::create(['name' => 'view phase']);
-//        Permission::create(['name' => 'add phase']);
-//        Permission::create(['name' => 'edit phase']);
-//        Permission::create(['name' => 'delete phase']);
+//        Permission::create(['name' => 'view phase'])->assignRole(['project manager']);
+//        Permission::create(['name' => 'add phase'])->assignRole(['project manager']);
+//        Permission::create(['name' => 'edit phase'])->assignRole(['project manager']);
+//        Permission::create(['name' => 'delete phase'])->assignRole(['project manager']);
+        //end phase
+
+        //phase
+        Permission::create(['name' => 'view quotation'])->assignRole(['project manager']);;
+        Permission::create(['name' => 'add quotation'])->assignRole(['project manager']);;
+        Permission::create(['name' => 'edit quotation'])->assignRole(['project manager']);;
+        Permission::create(['name' => 'delete quotation'])->assignRole(['project manager']);;
         //end phase
     }
 }

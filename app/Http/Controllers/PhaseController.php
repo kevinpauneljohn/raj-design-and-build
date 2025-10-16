@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Phase;
 use App\Http\Requests\StorePhaseRequest;
 use App\Http\Requests\UpdatePhaseRequest;
+use App\Models\Project;
 use App\Services\PhaseService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -52,9 +53,13 @@ class PhaseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Phase $phase)
+    public function show(Phase $phase, PhaseService $phaseService)
     {
-        //
+        return view('dashboard.phases.profile')->with([
+            'phase' => $phase,
+            'project' => $phase->project,
+            'remaining_percentage' => $phaseService->check_phase_remaining_percentage($phase->project->id),
+        ]);
     }
 
     /**

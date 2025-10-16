@@ -10,5 +10,10 @@ class Phase extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'percentage', 'project_id', 'start_date', 'end_date'];
+    protected $fillable = ['name', 'description', 'percentage', 'project_id', 'start_date', 'end_date', 'category'];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

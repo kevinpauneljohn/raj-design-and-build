@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('percentage', 5, 2)->default(0);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->enum('category', ['pre-construction', 'construction'])->default('construction');
             $table->timestamps();
             $table->softDeletes();
         });

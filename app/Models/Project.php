@@ -35,4 +35,14 @@ class Project extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function phases()
+    {
+        return $this->hasMany(Phase::class);
+    }
 }
